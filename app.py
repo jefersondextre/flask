@@ -36,7 +36,9 @@ def example():
 def login(name=None):
   print(name)
   if name is not None:
-    return redirect(f"/dashboard/{name}/")
+    # aqui ya no usaremos la url como ruta directamente sino usaremos url_for()
+    # return redirect(f"/dashboard/{name}/")
+    return redirect(url_for("dashboard",name=name))
   else:
     return f'<h1 style="font-size:32px; color:green;">Hola Desconocido </h1> <br> <p>Por favor igresa tu nombre en la URL</p>'
 
@@ -46,4 +48,5 @@ def login(name=None):
 def dashboard(name=None):
   if name is not None:
     return f"<h1>Bienvenido {name} al dashboard</h1>"
-  return redirect("/login/")
+  # return redirect("/login/")
+  return redirect(url_for("login"))
