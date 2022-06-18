@@ -3,7 +3,7 @@ from flask import Flask
 app=Flask(__name__)
 
 # if __name__=='__main__':
-  # ya no necesitamos esta condivion ya que ahora usamos a el propio flask para levantar nuestro servidor.
+  # ya no necesitamos esta condicion ya que ahora usamos a el propio flask para levantar nuestro servidor.
   
 @app.route("/")
 def index():
