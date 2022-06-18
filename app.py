@@ -36,5 +36,5 @@ def dashboard(name=None):
   # print("In dashboard")
   if name is not None:
     return f"<h1>Bienvenido {name} al dashboard</h1>"
-  return redirect("/login/")
-  # return redirect("https://google.com")
+  # return redirect("/login/")
+  return redirect("https://google.com")
