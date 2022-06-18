@@ -1,10 +1,7 @@
-from flask import Flask
+from flask import Flask,redirect
 
 app=Flask(__name__)
 
-# if __name__=='__main__':
-  # ya no necesitamos esta condicion ya que ahora usamos a el propio flask para levantar nuestro servidor.
-  
 @app.route("/")
 def index():
   return """
@@ -23,14 +20,21 @@ def about():
         """
 
 # Este metodo siempre espera recibir la url con el nombre para eso puedes colocar otro decorador
-@app.route("/Saludo/<name>/<int:sueldo>/")
-@app.route("/Saludo/<name>/")
-@app.route("/Saludo/")
-def greeting(name=None,sueldo=None):
+@app.route("/login/<name>/")
+@app.route("/login/")
+def login(name=None):
   print(name)
   if name is not None:
-    if sueldo is not None:
-      return f'<h1 style="font-size:32px; color:green;">Hola {name}, Tu sueldo es: {sueldo*2} </h1>'
-    return f'<h1 style="font-size:32px; color:green;">Hola {name} </h1>'
+    return redirect(f"/dashboard/{name}")
   else:
-    return f'<h1 style="font-size:32px; color:green;">Hola Desconocido </h1>'
+    return f'<h1 style="font-size:32px; color:green;">Hola Desconocido </h1> <br> <p>Por favor igresa tu nombre en la URL</p>'
+
+
+@app.route("/dashboard/<name>/")
+@app.route("/dashboard/")
+def dashboard(name=None):
+  # print("In dashboard")
+  if name is not None:
+    return f"<h1>Bienvenido {name} al dashboard</h1>"
+  return redirect("/login/")
+  # return redirect("https://google.com")
