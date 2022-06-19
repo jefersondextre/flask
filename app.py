@@ -1,4 +1,4 @@
-from flask import Flask,redirect,url_for
+from flask import Flask,redirect,url_for,request
 
 app=Flask(__name__)
 
@@ -31,22 +31,33 @@ def example():
 
 # Este metodo siempre espera recibir la url con el nombre para eso 
 # puedes colocar otro decorador
-@app.route("/login/<name>/")
-@app.route("/login/")
-def login(name=None):
-  print(name)
-  if name is not None:
-    # aqui ya no usaremos la url como ruta directamente sino usaremos url_for()
-    # return redirect(f"/dashboard/{name}/")
-    return redirect(url_for("dashboard",name=name))
-  else:
-    return f'<h1 style="font-size:32px; color:green;">Hola Desconocido </h1> <br> <p>Por favor igresa tu nombre en la URL</p>'
-
+# @app.route("/login/<name>/")
+@app.route("/login/",methods=["GET","POST"])
+def login():
+  # ------  USAREMOS UN FORMULARIO DE HTML PARA MANEJAR METODO POST ------------
+  # print(request.method)
+  if request.method == "POST":
+    username = request.form["username"]
+    password = request.form["password"]
+    if username and password:
+      print(username,password)
+      return redirect(url_for("dashboard",name=username))     
+  return """
+<h3>Ingresa tus datos</h3>
+      <form method="POST" style="background-color:#e6e6e6; padding:2em;">
+        <input type="text" name="username" placeholder="Nombres y apellidos"/> <br/><br/> 
+        <input type="password" name="password" placeholder="contraseña"/>
+        <br/><br/>
+        <button type="submit"> Enviar </button>  
+      </form>
+        """
+  
 
 @app.route("/profile/<name>/")
 @app.route("/profile/")
 def dashboard(name=None):
   if name is not None:
     return f"<h1>Bienvenido {name} al dashboard</h1>"
+    # return f"<h1>Bienvenido al dashboard</h1>"
   # return redirect("/login/")
   return redirect(url_for("login"))
